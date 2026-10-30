@@ -1,0 +1,63 @@
+@import "~/.config/rofi/shared/colors.rasi"
+
+configuration {
+    show-icons: true;
+}
+
+* {
+    /* Если в твоем colors.rasi другие имена переменных, замени их здесь */
+    bg: #1E1E24;            /* Темно-серый фон кнопок */
+    fg: #EBE2C4;            /* Бежевый цвет текста/иконок */
+    sel-bg: #EBE2C4;        /* Бежевый фон при наведении (как на фото) */
+    sel-fg: #1E1E24;        /* Темный текст при наведении */
+    font: "sans 10";
+}
+
+window {
+    background-color: transparent;
+    border: 0px;
+    padding: 10px;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ listview ];
+}
+
+listview {
+    orientation: horizontal;  /* Горизонтальный список, как на скрине */
+    lines: 1;                 /* Одна строка */
+    columns: 5;               /* Показывать 5 штук в ряд (если больше - будет скролл) */
+    background-color: transparent;
+    spacing: 10px;            /* Отступ между кнопками */
+    dynamic: true;
+}
+
+element {
+    padding: 10px;
+    border-radius: 15px;      /* Скругленные углы */
+    background-color: @bg;
+    text-color: @fg;
+    cursor: pointer;
+}
+
+element selected {
+    background-color: @sel-bg;
+    text-color: @sel-fg;
+}
+
+element-icon {
+    size: 100px;              /* Размер превью обоев */
+    border-radius: 10px;
+    horizontal-align: 0.5;    /* Центрируем картинку */
+    vertical-align: 0.5;
+}
+
+element-text {
+    /* Чтобы оставить только картинки (без имен файлов), раскомментируй строку ниже */
+    /* text-color: transparent; */
+    background-color: transparent;
+    text-color: inherit;
+    horizontal-align: 0.5;
+    font: "sans 9";
+}

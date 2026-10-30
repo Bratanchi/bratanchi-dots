@@ -1,0 +1,108 @@
+// ~/.config/niri/keybinds.kdl
+// Привязки, перенесённые из Hyprland (Lua).
+// Mod = Super на TTY, Alt — во вложенном окне.
+
+binds {
+    // --- Справка по горячим клавишам ---
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // --- Запуск программ ---
+    Mod+S          { spawn "kitty"; }                          // terminal
+    Mod+M          { spawn "kitty" "rmpc"; }                  // music
+    Mod+E          { spawn "nautilus"; }                      // file manager
+    Mod+A          { spawn-sh "rofi -show drun"; }             // menu
+    Mod+B          { spawn "firefox"; }                        // browser
+    Mod+L          { spawn "kitty" "cava"; }                  // cava
+    Mod+Alt+B      { spawn "blueman-manager"; }                // bluetooth
+    Mod+Alt+W      { spawn-sh "$HOME/.config/rofi/scripts/waybarmenu.sh"; }
+    Mod+Shift+W    { spawn-sh "$HOME/.config/rofi/scripts/wallpapermenu.sh"; }
+    Ctrl+Alt+Delete { spawn-sh "$HOME/.config/rofi/scripts/powermenu.sh"; }
+
+    // --- Управление окнами и колонками ---
+    Mod+Q          { close-window; }
+    Mod+W          { toggle-window-floating; }                 // toggle float
+    // Mod+D       { toggle-window-pseudo; }                    // pseudo — аналога нет, закомментировано
+    Mod+J          { switch-preset-column-width; }              // аналог togglesplit (переключение ширины колонки)
+
+    // --- Навигация по фокусу ---
+    Mod+Left       { focus-column-left; }
+    Mod+Right      { focus-column-right; }
+    Mod+Up         { focus-window-up; }
+    Mod+Down       { focus-window-down; }
+
+    // --- Рабочие столы (workspaces) ---
+    // Переключение 1–9 (10-й в niri не используется, но можно оставить)
+    Mod+1          { focus-workspace 1; }
+    Mod+2          { focus-workspace 2; }
+    Mod+3          { focus-workspace 3; }
+    Mod+4          { focus-workspace 4; }
+    Mod+5          { focus-workspace 5; }
+    Mod+6          { focus-workspace 6; }
+    Mod+7          { focus-workspace 7; }
+    Mod+8          { focus-workspace 8; }
+    Mod+9          { focus-workspace 9; }
+
+    // Перемещение окна/колонки на workspace
+    Mod+Shift+1    { move-window-to-workspace 1; }
+    Mod+Shift+2    { move-window-to-workspace 2; }
+    Mod+Shift+3    { move-window-to-workspace 3; }
+    Mod+Shift+4    { move-window-to-workspace 4; }
+    Mod+Shift+5    { move-window-to-workspace 5; }
+    Mod+Shift+6    { move-window-to-workspace 6; }
+    Mod+Shift+7    { move-window-to-workspace 7; }
+    Mod+Shift+8    { move-window-to-workspace 8; }
+    Mod+Shift+9    { move-window-to-workspace 9; }
+
+    // Прокрутка для переключения workspace (аналог mouse_down/up)
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
+
+    // --- «Специальный» workspace (scratchpad) ---
+    // В niri нет специальных workspace как в Hyprland.
+    // Вместо этого используем именованный workspace "magic".
+    // Переключение туда/обратно:
+    Mod+F          { focus-workspace "magic"; }
+    // Переместить окно в "magic":
+    Mod+Shift+F    { move-window-to-workspace "magic"; }
+    // Примечание: чтобы вернуться, используй focus-workspace-previous
+    // (если доступно в твоей версии niri) или просто переключись на Mod+1.
+
+    // --- Скриншоты ---
+    // В niri есть встроенный интерактивный скриншот (выбор области).
+    Mod+Print      { screenshot; }
+    // Дополнительно: скриншот всего экрана и окна
+    Ctrl+Print     { screenshot-screen; }
+    Alt+Print      { screenshot-window; }
+
+    // --- Пипетка цвета (hyprpicker) ---
+    // Если hyprpicker работает под niri, можно оставить spawn.
+    Mod+P          { spawn "hyprpicker" "-a"; }
+
+    // --- Мультимедиа и яркость (с повторением при удержании) ---
+    XF86AudioRaiseVolume allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
+    }
+    XF86AudioLowerVolume allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+    }
+    XF86AudioMute allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+    }
+    XF86AudioMicMute allow-when-locked=true repeat=true {
+        spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+    }
+    XF86MonBrightnessUp allow-when-locked=true repeat=true {
+        spawn-sh "brightnessctl -e4 -n2 set 5%+";
+    }
+    XF86MonBrightnessDown allow-when-locked=true repeat=true {
+        spawn-sh "brightnessctl -e4 -n2 set 5%-";
+    }
+
+    XF86AudioNext  allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay  allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev  allow-when-locked=true { spawn "playerctl" "previous"; }
+
+    // --- Блокировка экрана ---
+    Super+Alt+L { spawn "swaylock"; }
+}

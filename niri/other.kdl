@@ -1,0 +1,65 @@
+// ~/.config/niri/other.kdl
+// Всё, кроме привязок и автозапуска: мониторы, ввод, раскладка, правила окон.
+// Привязки — в keybinds.kdl, автозапуск — в autostart.kdl.
+
+// ─────────────────────────────────────────────
+// 1. МОНИТОРЫ
+// ─────────────────────────────────────────────
+// Имя разъёма уточни командой: niri msg outputs
+output "eDP-1" {
+    mode "1920x1080@60.000"
+    scale 1.0
+    // variable-refresh-rate   // включи, если монитор поддерживает VRR
+}
+
+// ─────────────────────────────────────────────
+// 2. ВВОД: ДВЕ РАСКЛАДКИ
+// ─────────────────────────────────────────────
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+            options "grp:alt_shift_toggle"
+        }
+        numlock
+    }
+
+    touchpad {
+        tap
+        // natural-scroll // включить, если нужно
+    }
+}
+// ─────────────────────────────────────────────
+// 3. РАСКЛАДКА ОКОН (аналог general/dwindle)
+// ─────────────────────────────────────────────
+layout {
+    gaps 6
+    center-focused-column "on-overflow"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+}
+
+// ─────────────────────────────────────────────
+// 4. ПРАВИЛА ОКОН
+// ─────────────────────────────────────────────
+// Неактивные окна — прозрачность 0.7
+window-rule {
+    match is-active=false
+    opacity 0.7
+}
+
+// Плавающее окно для blueman-manager
+window-rule {
+    match app-id="blueman-manager"
+    open-floating true
+}
+
+// Плавающее окно для imv
+window-rule {
+    match app-id="imv"
+    open-floating true
+}

@@ -1,0 +1,34 @@
+// ~/.config/niri/autostart.kdl
+// Автозапуск, перенесённый из Hyprland (Lua).
+
+// --- 1. Демоны и панели ---
+spawn-at-startup "waybar"
+spawn-at-startup "dunst"
+
+// Демон обоев awww (форк swww, работает под любым Wayland-композитором).
+spawn-at-startup "awww-daemon"
+
+// Установка обоев через awww после старта демона.
+// Замени путь на свой. awww ждёт появления демона, поэтому sleep 1 достаточно.
+spawn-sh-at-startup "sleep 1 && awww img /home/твой_пользователь/Pictures/wallpaper.jpg --transition-type grow --transition-duration 1"
+
+// Политика-агент. Если hyprpolkitagent не запускается под niri — замени на
+// /usr/lib/mate-polkit или /usr/lib/polkit-kde-authentication-agent-1.
+spawn-at-startup "/usr/lib/hyprpolkitagent"
+
+// Idle-демон. hypridle завязан на IPC Hyprland, под niri используем swayidle.
+// Блокировка через 10 минут, выключение экрана через 15.
+spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f" "timeout" "900" "niri msg action power-off-monitors"
+
+
+// --- 2. Экспорт окружения в D-Bus (для порталов и systemd-сервисов) ---
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
+spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+
+
+// --- 3. Порталы (адаптация под niri) ---
+// xdg-desktop-portal-hyprland под niri не работает. Для скринкастов niri
+// совместим с xdg-desktop-portal-gnome (см. portals.conf).
+// Ждём, пока niri поднимет D-Bus интерфейс ScreenCast, затем перезапускаем
+// портал-gnome, чтобы он увидел возможность шаринга.
+spawn-sh-at-startup "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; pkill -f xdg-desktop-portal-gnome || true"

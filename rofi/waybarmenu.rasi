@@ -1,0 +1,52 @@
+@import "~/.config/rofi/shared/colors.rasi"
+
+* {
+    /* Те же цвета, что и в меню обоев */
+    bg: #1E1E24;            /* Темно-серый фон кнопок */
+    fg: #EBE2C4;            /* Бежевый цвет текста */
+    sel-bg: #EBE2C4;        /* Бежевый фон при наведении */
+    sel-fg: #1E1E24;        /* Темный текст при наведении */
+    font: "sans 12";
+}
+
+window {
+    background-color: transparent;
+    border: 0px;
+    padding: 10px;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ listview ];
+}
+
+listview {
+    orientation: horizontal;  /* Располагаем кнопки в ряд */
+    lines: 1;                 
+    columns: 3;               /* Сколько тем - столько и столбцов (можно оставить 5, будет скролл) */
+    background-color: transparent;
+    spacing: 12px;            /* Отступ между кнопками */
+    dynamic: true;
+}
+
+element {
+    /* Увеличиваем внутренние отступы, чтобы кнопки были квадратными/прямоугольными */
+    padding: 25px 35px;       
+    border-radius: 15px;      /* Такие же скругленные углы */
+    background-color: @bg;
+    text-color: @fg;
+    cursor: pointer;
+}
+
+element selected {
+    background-color: @sel-bg;
+    text-color: @sel-fg;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    horizontal-align: 0.5;    /* Выравниваем текст по центру */
+    vertical-align: 0.5;
+    font: "sans bold 12";     /* Сделал шрифт чуть жирнее для читаемости */
+}
